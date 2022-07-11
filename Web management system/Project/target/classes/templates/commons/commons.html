@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<!--Top navigation-->
+<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0" th:fragment="topbar">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://getbootstrap.com/docs/4.0/examples/dashboard/#">[[${session.loginUser}]]</a>
+    <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">
+    <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+            <a class="nav-link" th:href="@{/index.html}">Sign out</a>
+        </li>
+    </ul>
+</nav>
+<!--sidebar-->
+<nav class="col-md-2 d-none d-md-block bg-light sidebar"  th:fragment="sidebar">
+    <div class="sidebar-sticky">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a th:class="${active=='main.html'?'nav-link active':'nav-link'}" th:href="@{/main.html}">
+                    Dashboard <span class="sr-only">(current)</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:class="${active=='list.html'?'nav-link active':'nav-link'}" th:href="@{/exhibits}">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Exhibits
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:class="${active=='authorlist.html'?'nav-link active':'nav-link'}" th:href="@{/authors}">
+
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Authors
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:class="${active=='roomlist.html'?'nav-link active':'nav-link'}" th:href="@{/rooms}">
+                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    Rooms
+                </a>
+            </li>
+            <li class="nav-item">
+                <a th:class="${active=='beaconlist.html'?'nav-link active':'nav-link'}" th:href="@{/beacons}">
+                    Bluetooth Beacons
+                </a>
+            </li>
+        </ul>
+
+        <ul class="nav flex-column mb-2">
+            <li class="nav-item">
+                <a th:class="${active=='typelist.html'?'nav-link active':'nav-link'}" th:href="@{/types}">
+                    Types
+                </a>
+            </li>
+
+        </ul>
+    </div>
+</nav>
+</html>

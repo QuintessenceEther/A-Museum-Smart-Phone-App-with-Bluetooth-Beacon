@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kai.mapper.AuthorMapper">
+    <resultMap id="AuthorMap" type="com.kai.pojo.Author">
+        <result property="id" column="ID"/>
+        <result property="name" column="Name"/>
+        <result property="gender" column="Gender"/>
+        <result property="birth" column="Birth"/>
+        <result property="death" column="Death"/>
+        <result property="country" column="Country"/>
+    </resultMap>
+
+    <select id="getAuthors" resultMap="AuthorMap">
+        select * from Museum.Author
+    </select>
+
+    <insert id="save" parameterType="Author">
+        insert into Author (Name,Gender,Birth,Death,Country)
+        values (#{name},#{gender},#{birth},#{death},#{country});
+    </insert>
+
+    <select id="get" resultType="Author">
+        select * from Museum.Author where ID = #{id};
+    </select>
+
+    <update id="update" parameterType="Author">
+        update Museum.Author
+        set Name = #{name}, Gender = #{gender}, Birth = #{birth}, Death = #{death},
+            Country = #{country}
+        where ID = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from Museum.Author where ID = #{id};
+    </delete>
+</mapper>
