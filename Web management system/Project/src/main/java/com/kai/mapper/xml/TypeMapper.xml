@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kai.mapper.TypeMapper">
+    <resultMap id="TypeMap" type="com.kai.pojo.Type">
+        <result property="id" column="ID"/>
+        <result property="type" column="type"/>
+        <result property="style" column="style"/>
+        <result property="subject" column="subject"/>
+        <result property="material" column="material"/>
+        <result property="pigment" column="pigment"/>
+    </resultMap>
+    <select id="getTypes" resultMap="TypeMap">
+        select * from Museum.Type
+    </select>
+
+    <insert id="save" parameterType="Type">
+        insert into Museum.Type (type,style,subject,material,pigment)
+        values (#{type},#{style},#{subject},#{material},#{pigment});
+    </insert>
+
+
+    <select id="get" resultType="Type">
+        select * from Museum.Type where id = #{id};
+    </select>
+
+    <update id="update" parameterType="Type">
+        update Museum.Type
+        set type = #{type}, style = #{style}, subject = #{subject},
+            material = #{material}, pigment = #{pigment}
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from Museum.Type where id = #{id};
+    </delete>
+</mapper>

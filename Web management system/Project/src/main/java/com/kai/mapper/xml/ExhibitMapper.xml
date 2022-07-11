@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kai.mapper.ExhibitMapper">
+
+<!--    <resultMap id="ExhibitMap" type="Exhibit">-->
+<!--        <id property="id" column="eid"/>-->
+<!--        <result property="lastName" column="last_name"/>-->
+<!--        <result property="email" column="email"/>-->
+<!--        <result property="gender" column="gender"/>-->
+<!--        <result property="birth" column="birth"/>-->
+<!--        <association property="eDepartment"  javaType="Department">-->
+<!--            <id property="id" column="did"/>-->
+<!--            <result property="departmentName" column="dname"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+
+<!--    <select id="getEmployees" resultMap="EmployeeMap">-->
+<!--        select e.id as eid,last_name,email,gender,birth,d.id as did,d.department_name as dname-->
+<!--        from department d,employee e-->
+<!--        where d.id = e.department-->
+<!--    </select>-->
+
+<!--    <insert id="save" parameterType="Employee">-->
+<!--        insert into employee (last_name,email,gender,department,birth)-->
+<!--        values (#{lastName},#{email},#{gender},#{department},#{birth});-->
+<!--    </insert>-->
+
+<!--    <update id="update" parameterType="Employee">-->
+<!--        update employee-->
+<!--        set last_name = #{lastName},email=#{email},gender=#{gender},department=#{department},birth=#{birth}-->
+<!--        where id = #{id} ;-->
+<!--    </update>-->
+
+    <resultMap id="ExhibitMap" type="com.kai.pojo.Exhibit">
+        <result property="id" column="eid"/>
+        <result property="name" column="ename"/>
+        <result property="date" column="date"/>
+        <result property="voiceDescription" column="VoiceDescription"/>
+        <association property="bluetoothBeacon" javaType="BluetoothBeacon">
+            <result property="id" column="bid"/>
+            <result property="UUID" column="UUID"/>
+            <result property="major" column="Major"/>
+            <result property="minor" column="Minor"/>
+        </association>
+        <association property="room" javaType="Room">
+            <result property="id" column="rid"/>
+            <result property="floor" column="Floor"/>
+            <result property="location" column="location"/>
+        </association>
+        <association property="author" javaType="Author">
+            <result property="id" column="aid"/>
+            <result property="name" column="aname"/>
+            <result property="gender" column="Gender"/>
+            <result property="birth" column="Birth"/>
+            <result property="country" column="Country"/>
+        </association>
+        <association property="type" javaType="Type">
+            <result property="id" column="tid"/>
+            <result property="type" column="type"/>
+            <result property="style" column="style"/>
+            <result property="subject" column="subject"/>
+            <result property="material" column="material"/>
+            <result property="pigment" column="pigment"/>
+        </association>
+    </resultMap>
+
+    <select id="getExhibits" resultMap="ExhibitMap">
+        select e.id eid,e.name ename,  e.date date,
+        e.voiceDescription voiceDescription,r.floor floor,r.id rid,
+        r.location location, a.name aname, b.id bid, t.type type, t.style style,b.major major, b.minor minor
+        from Museum.Exhibits e, Museum.Room r, Museum.Author a, Museum.BluetoothBeacon b, Museum.Type t
+        where e.RoomId = r.id and e.Author = a.id and e.BluetoothBeaconId = b.id and e.Type = t.id;
+    </select>
+
+    <insert id="save" parameterType="Exhibit">
+        insert into Exhibits (Name,Author,Date,Type,RoomId,voiceDescription,BluetoothBeaconId)
+        values (#{name},#{author.id},#{date},#{type.id},#{room.id},#{voiceDescription},#{bluetoothBeacon.id});
+    </insert>
+
+    <select id="get" resultMap="ExhibitMap">
+        select e.id eid, e.name ename, e.date date,
+        e.voiceDescription voiceDescription,
+        a.id aid, a.name aname,
+        b.id bid, b.major major, b.minor, minor,
+        r.id rid, r.location location,
+        t.id tid, t.type type, t.style style
+        from Museum.Exhibits e, Museum.Author a, Museum.BluetoothBeacon b
+        ,Museum.Room r, Museum.Type t
+        where e.id = #{id} and e.RoomId = r.id and e.Author = a.id and e.BluetoothBeaconId = b.id and e.Type = t.id;
+    </select>
+    
+    <update id="update" parameterType="Exhibit">
+        update Museum.Exhibits
+        set Name = #{name}, Author = #{author.id}, Date = #{date}, Type = #{type.id},
+            RoomId = #{room.id}, voiceDescription = #{voiceDescription},
+            BluetoothBeaconId = #{bluetoothBeacon.id}
+        where id = #{id};
+    </update>
+
+    <delete id="delete" parameterType="int">
+        delete from Museum.Exhibits where id = #{id};
+    </delete>
+
+
+
+</mapper>
